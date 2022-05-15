@@ -22,7 +22,7 @@ finish-args:
   - --filesystem=~/Games/Heroic:ro # Heroic (non-flatpak)
   - --filesystem=~/.var/app/com.heroicgameslauncher.hgl:ro # Heroic (Flatpak)
   - --filesystem=~/.config/itch:ro # Itch
-  - --filesystem=~/run/media/mmcblk0p1:ro # Steam Deck SD Card
+  - --filesystem=/run/media/mmcblk0p1:ro # Steam Deck SD Card
 
   - --share=network
   - --share=ipc
