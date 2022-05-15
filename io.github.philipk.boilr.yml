@@ -24,7 +24,7 @@ finish-args:
   - --filesystem=~/.config/itch:ro # Itch
   - --filesystem=/run/media/mmcblk0p1:ro # Steam Deck SD Card
 
-  - --share=network
+  - --share=network #To download images
   - --share=ipc
   - --socket=fallback-x11
   - --socket=wayland
@@ -38,7 +38,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/PhilipK/BoilR
-        commit: eb819c135739146a8c58101bbb04cfee4bc538bc
+        commit: faea4e059a20a93f26c1552f5af6b54169385a91
       - "cargo-lock.json"
     build-commands:
       - install -Dm644 ./resources/io.github.philipk.boilr.png -t /app/share/icons/hicolor/32x32/apps
