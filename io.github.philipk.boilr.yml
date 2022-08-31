@@ -23,6 +23,8 @@ finish-args:
   - --filesystem=~/.var/app/com.heroicgameslauncher.hgl:ro # Heroic (Flatpak)
   - --filesystem=~/.config/itch:ro # Itch
   - --filesystem=/run/media/mmcblk0p1:ro # Steam Deck SD Card
+  - --talk-name=org.freedesktop.Flatpak
+  - --filesystem=xdg-data/flatpak:ro
 
   - --share=network #To download images
   - --share=ipc
@@ -38,7 +40,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/PhilipK/BoilR
-        commit: dc01628b024008787f573caa00fc241f33386828
+        commit: 8524da73cc0ce37306e4e6f913a309e3e42d23fc
       - "cargo-lock.json"
     build-commands:
       - install -Dm644 ./resources/io.github.philipk.boilr.png -t /app/share/icons/hicolor/32x32/apps
@@ -48,5 +50,5 @@ modules:
       - install -Dm644 ./flatpak/io.github.philipk.boilr.desktop -t /app/share/applications/
       - install -Dm644 ./flatpak/io.github.philipk.boilr.appdata.xml -t /app/share/metainfo/      
       - cargo --offline fetch --manifest-path Cargo.toml --verbose
-      - cargo --offline build --release --verbose
+      - cargo --offline build --release --verbose --features flatpak
       - install -Dm755 ./target/release/boilr -t /app/bin/
