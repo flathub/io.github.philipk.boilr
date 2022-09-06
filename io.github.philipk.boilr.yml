@@ -1,7 +1,7 @@
 app-id: io.github.philipk.boilr
 command: boilr
 runtime: org.freedesktop.Platform
-runtime-version: '21.08'
+runtime-version: '22.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.rust-stable
@@ -23,6 +23,8 @@ finish-args:
   - --filesystem=~/.var/app/com.heroicgameslauncher.hgl:ro # Heroic (Flatpak)
   - --filesystem=~/.config/itch:ro # Itch
   - --filesystem=/run/media/mmcblk0p1:ro # Steam Deck SD Card
+  - --talk-name=org.freedesktop.Flatpak
+  - --filesystem=xdg-data/flatpak:ro
 
   - --share=network #To download images
   - --share=ipc
@@ -48,5 +50,5 @@ modules:
       - install -Dm644 ./flatpak/io.github.philipk.boilr.desktop -t /app/share/applications/
       - install -Dm644 ./flatpak/io.github.philipk.boilr.appdata.xml -t /app/share/metainfo/      
       - cargo --offline fetch --manifest-path Cargo.toml --verbose
-      - cargo --offline build --release --verbose
+      - cargo --offline build --release --verbose --features flatpak
       - install -Dm755 ./target/release/boilr -t /app/bin/
