@@ -12,7 +12,6 @@ build-options:
     CARGO_HOME: /run/build/boilr/cargo
     RUSTFLAGS: "-L /app/lib/"
 
-command: boilr
 finish-args:
   - --filesystem=xdg-data/Steam:rw #Steam (flatpak)
   - --filesystem=~/.steam:rw # Steam (Non-flatpak)
