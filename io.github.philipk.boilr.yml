@@ -41,7 +41,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/PhilipK/BoilR
-        commit: 43c1539700ee5fcc6595f111b7f860d5afae61e0
+        commit: 1eebd2959d2be18380a51b2ad37b274187849b89
       - "cargo-lock.json"
     build-commands:
       - install -Dm644 ./resources/io.github.philipk.boilr.png -t /app/share/icons/hicolor/32x32/apps
