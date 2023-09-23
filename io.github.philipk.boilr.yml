@@ -14,6 +14,7 @@ build-options:
 
 finish-args:
   - --filesystem=~/.config/legendary:ro # Legendary
+  - --filesystem=~/.config/heroic #Heroic (Bin)
   - --filesystem=xdg-data/Steam:rw #Steam (flatpak)
   - --filesystem=~/.steam:rw # Steam (Non-flatpak)
   - --filesystem=~/.var/app/com.valvesoftware.Steam:rw # Steam (Flatpak)
@@ -41,7 +42,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/PhilipK/BoilR
-        commit: aba6c7f8342a533ff377e35ec029c202854bd563
+        commit: b33d965f227fe971fd590cb022f608521b506ef3
       - "cargo-lock.json"
     build-commands:
       - install -Dm644 ./resources/io.github.philipk.boilr.png -t /app/share/icons/hicolor/32x32/apps
