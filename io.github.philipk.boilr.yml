@@ -24,7 +24,7 @@ finish-args:
   - --filesystem=~/.var/app/com.heroicgameslauncher.hgl:ro # Heroic (Flatpak)
   - --filesystem=~/.config/itch:ro # Itch (Non Flatpak)
   - --filesystem=~/GOG Games:ro # Minigalaxy
-  - --filesystem=/run/media/mmcblk0p1:ro # Steam Deck SD Card
+  - --filesystem=/run/media:ro # Steam Deck SD Card
   - --talk-name=org.freedesktop.Flatpak #Reading other flatpaks
   - --filesystem=xdg-data/flatpak:ro #Reading other flatpaks
 
