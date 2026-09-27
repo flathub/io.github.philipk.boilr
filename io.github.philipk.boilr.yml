@@ -1,56 +1,61 @@
+# Beta channel: the new Tauri interface. Install with
+#   flatpak install flathub-beta io.github.philipk.boilr
+# The stable branch (master) keeps shipping the egui app.
 app-id: io.github.philipk.boilr
-command: boilr
-runtime: org.freedesktop.Platform
-runtime-version: '25.08'
-sdk: org.freedesktop.Sdk
+runtime: org.gnome.Platform
+runtime-version: '51'
+sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.rust-stable
-build-options:
-  append-path: /usr/lib/sdk/rust-stable/bin
-  env:
-    # To pick up vendored deps
-    CARGO_HOME: /run/build/boilr/cargo
-    RUSTFLAGS: "-L /app/lib/"
+  - org.freedesktop.Sdk.Extension.node22
+command: boilr
 
 finish-args:
   - --filesystem=~/.config/legendary:ro # Legendary
-  - --filesystem=~/.config/heroic #Heroic (Bin)
-  - --filesystem=xdg-data/Steam:rw #Steam (flatpak)
-  - --filesystem=~/.steam:rw # Steam (Non-flatpak)
+  - --filesystem=~/.config/heroic # Heroic (native)
+  - --filesystem=xdg-data/Steam:rw # Steam (Flatpak)
+  - --filesystem=~/.steam:rw # Steam (native)
   - --filesystem=~/.var/app/com.valvesoftware.Steam:rw # Steam (Flatpak)
-  - --filesystem=xdg-data/lutris:ro # Lutris (non-flatpak)
+  - --filesystem=xdg-data/lutris:ro # Lutris (native)
   - --filesystem=~/.var/app/net.lutris.Lutris:ro # Lutris (Flatpak)
-  - --filesystem=~/Games/Heroic:ro # Heroic (non-flatpak)
+  - --filesystem=~/Games/Heroic:ro # Heroic (native)
   - --filesystem=~/.var/app/com.heroicgameslauncher.hgl:ro # Heroic (Flatpak)
-  - --filesystem=~/.config/itch:ro # Itch (Non Flatpak)
-  - --filesystem=~/GOG Games:ro # Minigalaxy
-  - --filesystem=/run/media:ro # Steam Deck SD Card
-  - --talk-name=org.freedesktop.Flatpak #Reading other flatpaks
-  - --filesystem=xdg-data/flatpak:ro #Reading other flatpaks
-
-  - --share=network #To download images
+  - --filesystem=~/.config/itch:ro # Itch (native)
+  - --filesystem=~/GOG Games:ro # MiniGalaxy
+  - --filesystem=/run/media:ro # Steam Deck SD card
+  - --talk-name=org.freedesktop.Flatpak # Listing other Flatpaks
+  - --filesystem=xdg-data/flatpak:ro # Listing other Flatpaks
+  - --share=network # Artwork downloads
   - --share=ipc
   - --socket=fallback-x11
   - --socket=wayland
   - --device=dri
 
+build-options:
+  append-path: /usr/lib/sdk/rust-stable/bin:/usr/lib/sdk/node22/bin
+  env:
+    CARGO_HOME: /run/build/boilr/cargo
+    CARGO_NET_OFFLINE: 'true'
+    npm_config_cache: /run/build/boilr/flatpak-node/npm-cache
+    npm_config_offline: 'true'
 
 modules:
-  
   - name: boilr
     buildsystem: simple
     sources:
       - type: git
         url: https://github.com/PhilipK/BoilR
-        commit: 311597c1a61738ab768bc2893b3a3e8aa120be1d
-      - "cargo-lock.json"
+        tag: tauri-v2.0.0-beta.1
+        commit: 19e4eb0c08f48e6fd306fe8d33673a5825552e06
+      - cargo-sources.json
+      - node-sources.json
     build-commands:
-      - install -Dm644 ./resources/io.github.philipk.boilr.png -t /app/share/icons/hicolor/32x32/apps
-      - install -Dm644 ./resources/64/io.github.philipk.boilr.png -t /app/share/icons/hicolor/64x64/apps
-      - install -Dm644 ./resources/128/io.github.philipk.boilr.png -t /app/share/icons/hicolor/128x128/apps
-      - install -Dm644 ./resources/256/io.github.philipk.boilr.png -t /app/share/icons/hicolor/256x256/apps
-      - install -Dm644 ./flatpak/io.github.philipk.boilr.desktop -t /app/share/applications/
-      - install -Dm644 ./flatpak/io.github.philipk.boilr.appdata.xml -t /app/share/metainfo/      
-      - cargo --offline fetch --manifest-path Cargo.toml --verbose
-      - cargo --offline build --release --verbose --features flatpak
-      - install -Dm755 ./target/release/boilr -t /app/bin/
+      - cd apps/boilr-tauri && npm ci --offline --no-audit --no-fund && npm run build
+      - cd apps/boilr-tauri && cargo build --offline --release --features tauri/custom-protocol,flatpak
+      - install -Dm755 apps/boilr-tauri/target/release/boilr-tauri /app/bin/boilr
+      - install -Dm644 resources/io.github.philipk.boilr.png -t /app/share/icons/hicolor/32x32/apps
+      - install -Dm644 resources/64/io.github.philipk.boilr.png -t /app/share/icons/hicolor/64x64/apps
+      - install -Dm644 resources/128/io.github.philipk.boilr.png -t /app/share/icons/hicolor/128x128/apps
+      - install -Dm644 resources/256/io.github.philipk.boilr.png -t /app/share/icons/hicolor/256x256/apps
+      - install -Dm644 flatpak/io.github.philipk.boilr.desktop -t /app/share/applications/
+      - install -Dm644 flatpak/io.github.philipk.boilr.appdata.xml -t /app/share/metainfo/
