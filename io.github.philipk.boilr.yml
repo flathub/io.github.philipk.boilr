@@ -45,8 +45,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/PhilipK/BoilR
-        tag: tauri-v2.0.0-beta.1
-        commit: 19e4eb0c08f48e6fd306fe8d33673a5825552e06
+        tag: tauri-v2.0.0-beta.2
+        commit: 247ee76144da6d178fe1bd2cc1557e034719b8c0
       - cargo-sources.json
       - node-sources.json
     build-commands:
